@@ -4,20 +4,17 @@ import torch.optim as optim
 import torchvision
 import torchvision.transforms as transforms
 
-# Define transformations for the training and test sets
 transform = transforms.Compose([
     transforms.ToTensor(),
     transforms.Normalize((0.5,), (0.5,))
 ])
 
-# Load the MNIST dataset
 train_dataset = torchvision.datasets.MNIST(root='./data', train=True, download=True, transform=transform)
 test_dataset = torchvision.datasets.MNIST(root='./data', train=False, download=True, transform=transform)
 
 train_loader = torch.utils.data.DataLoader(train_dataset, batch_size=32, shuffle=True)
 test_loader = torch.utils.data.DataLoader(test_dataset, batch_size=32, shuffle=False)
 
-# Define the neural network architecture
 class SimpleNN(nn.Module):
     def __init__(self):
         super(SimpleNN, self).__init__()
@@ -35,11 +32,9 @@ class SimpleNN(nn.Module):
 
 model = SimpleNN()
 
-# Define the loss function and optimizer
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.Adam(model.parameters(), lr=0.001)
 
-# Training the model
 num_epochs = 5
 for epoch in range(num_epochs):
     for images, labels in train_loader:
@@ -54,7 +49,6 @@ for epoch in range(num_epochs):
 
     print(f'Epoch [{epoch+1}/{num_epochs}], Loss: {loss.item():.4f}')
 
-# Evaluating the model
 model.eval()
 with torch.no_grad():
     correct = 0
